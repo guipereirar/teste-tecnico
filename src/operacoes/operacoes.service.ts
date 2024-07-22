@@ -6,6 +6,18 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class OperacoesService {
   constructor(private prisma: PrismaService) {}
 
+  async listarTodas() {
+    return this.prisma.operacao.findMany();
+  }
+
+  async listarPorTipo(tipo: number) {
+    return this.prisma.operacao.findMany({
+      where: {
+        tipo,
+      },
+    });
+  }
+
   async adicao(operacaoDto: OperacaoDto) {
     const { valor1, valor2 } = operacaoDto;
     const resultado = valor1 + valor2;

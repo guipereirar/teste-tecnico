@@ -19,6 +19,19 @@ export class OperacaoDto {
 export class OperacoesController {
   constructor(private readonly operacoesService: OperacoesService) {}
 
+  @Get('listar')
+  async listarOperacoes(@Query('tipo') tipo?: string) {
+    if (tipo) {
+      const operacoes = await this.operacoesService.listarPorTipo(
+        parseInt(tipo, 10),
+      );
+      return { operacoes };
+    } else {
+      const operacoes = await this.operacoesService.listarTodas();
+      return { operacoes };
+    }
+  }
+
   @Post('adicao')
   adicao(@Body() operacaoDto: OperacaoDto) {
     return this.operacoesService.adicao(operacaoDto);
